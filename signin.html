@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Circuit.ly</title>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600" rel="stylesheet">
+    <link rel="stylesheet" href="dist/css/style.css">
+	<script src="https://unpkg.com/animejs@3.0.1/lib/anime.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+</head>
+<body class="is-boxed has-animations">
+    <div class="body-wrap">
+        <header class="site-header">
+            <div class="container">
+                <div class="site-header-inner">
+                    <div class="brand header-brand">
+                        <h1 class="m-0">
+							<a href="#">
+								<img class="header-logo-image" src="dist/images/logo.svg" alt="Logo">
+                            </a>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-inner">
+						<div class="hero-copy">
+	                        <h1 class="hero-title mt-0">Sign in to Circuit.ly</h1>
+	                        <p class="hero-paragraph">Circuit.ly integrates with GitHub putting you in control of your data.</p>
+	                        <div class="hero-cta"><a class="button button-primary" id="signin" href="#">Sign in with GitHub</a></div>
+						</div>						
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="site-footer-inner">
+                    <div class="brand footer-brand">
+						<a href="#">
+							<img class="header-logo-image" src="dist/images/logo.svg" alt="Logo">
+						</a>
+                    </div>
+                    <ul class="footer-links list-reset">
+                        <li>
+                            <a href="mailto:hello@circuit.ly">Contact</a>
+                        </li>
+                        <li>
+                            <a href="#">About us</a>
+                        </li>
+                        <li>
+                            <a href="#">FAQ's</a>
+                        </li>
+                        <li>
+                            <a href="mailto:support@circuit.ly">Support</a>
+                        </li>
+                    </ul>
+                    <ul class="footer-social-links list-reset">
+                        <li>
+                            <a href="https://twitter.com/jeremysf">
+                                <span class="screen-reader-text">Twitter</span>
+                                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16 3c-.6.3-1.2.4-1.9.5.7-.4 1.2-1 1.4-1.8-.6.4-1.3.6-2.1.8-.6-.6-1.5-1-2.4-1-1.7 0-3.2 1.5-3.2 3.3 0 .3 0 .5.1.7-2.7-.1-5.2-1.4-6.8-3.4-.3.5-.4 1-.4 1.7 0 1.1.6 2.1 1.5 2.7-.5 0-1-.2-1.5-.4C.7 7.7 1.8 9 3.3 9.3c-.3.1-.6.1-.9.1-.2 0-.4 0-.6-.1.4 1.3 1.6 2.3 3.1 2.3-1.1.9-2.5 1.4-4.1 1.4H0c1.5.9 3.2 1.5 5 1.5 6 0 9.3-5 9.3-9.3v-.4C15 4.3 15.6 3.7 16 3z" fill="#0270D7"/>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="footer-copyright">&copy; 2021 Circuit.ly, all rights reserved</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        var query = {};
+        var pairs = window.location.search.substr(1).split('&');
+        for (var i = 0; i < pairs.length; i++) {
+            var pair = pairs[i].split('=');
+            query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+        }
+        fetch(window.location.host === 'localhost' ? `http://localhost:9000/v1/authorize` : `https://api.${window.location.host}/v1/authorize`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                kind: 'github',
+                scopes: ['user:email', 'repo'],
+                internalState: { reason: 'signin', redirect: query["return_to"] }
+            })
+        }).then(async response => {
+            const { result } = await response.json()
+            const { authorizeUrl } = result
+            document.getElementById('signin').href = authorizeUrl
+        })        
+    </script>
+</body>
+</html>
