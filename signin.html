@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Circuit.ly</title>
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600" rel="stylesheet">
-    <link rel="stylesheet" href="dist/css/style.css">
+    <link rel="stylesheet" href="/home/dist/css/style.css">
 	<script src="https://unpkg.com/animejs@3.0.1/lib/anime.min.js"></script>
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
 </head>
@@ -17,8 +17,8 @@
                 <div class="site-header-inner">
                     <div class="brand header-brand">
                         <h1 class="m-0">
-							<a href="#">
-								<img class="header-logo-image" src="dist/images/logo.svg" alt="Logo">
+							<a href="/home">
+								<img class="header-logo-image" src="/home/dist/images/logo.svg" alt="Logo">
                             </a>
                         </h1>
                     </div>
@@ -45,7 +45,7 @@
                 <div class="site-footer-inner">
                     <div class="brand footer-brand">
 						<a href="#">
-							<img class="header-logo-image" src="dist/images/logo.svg" alt="Logo">
+							<img class="header-logo-image" src="/home/dist/images/logo.svg" alt="Logo">
 						</a>
                     </div>
                     <ul class="footer-links list-reset">
@@ -85,7 +85,7 @@
             var pair = pairs[i].split('=');
             query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
         }
-        fetch(window.location.host === 'localhost' ? `http://localhost:9000/v1/authorize` : `https://api.${window.location.host}/v1/authorize`, {
+        fetch(window.location.host === 'localhost:9000' ? `http://localhost:9000/v1/authorize` : `https://api.${window.location.host}/v1/authorize`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
